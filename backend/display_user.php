@@ -2,10 +2,10 @@
 
 include 'connection.php';
 
-$email = $_POST['email'];
+$user_email = $_POST['email'];
 
 $query = $mysqli->prepare('SELECT * FROM users WHERE user_email = ?;');
-$query->bind_param('s', $email);
+$query->bind_param('s', $user_email);
 $query->execute();
 $query->store_result();
 $query->bind_result($id, $email, $name, $lastname, $address, $hashed_password);

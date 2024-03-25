@@ -2,7 +2,7 @@ import "../CSS/App.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function Company_profile() {  
+function Company_profile() {
   const data = localStorage.getItem("companyname");
   const [credentials, setCredentials] = useState({
     id: "",
@@ -16,11 +16,25 @@ function Company_profile() {
     img: "",
   });
   const [job, setJob] = useState({
-    id:"",
+    id: "",
     desc: "",
     pose: "",
     salary: "",
   });
+  const updateApp = (id, stat) => {
+    const form = new FormData();
+    form.append("stat", stat);
+    form.append("id", id);
+    axios
+      .post("http://localhost/fullstack/LinkedIn/backend/edit_app.php", form)
+      .then((resp) => {
+        console.log(resp.data);
+        window.location.href = "/Profile/company:" + credentials.name;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const displayinfo = () => {
     const info = document.createElement("ul");
     const form = new FormData();
@@ -64,7 +78,7 @@ function Company_profile() {
           .catch((err) => {
             console.log(err);
           });
-          axios
+        axios
           .post(
             "http://localhost/fullstack/LinkedIn/backend/display_job_posts.php",
             postfrom
@@ -75,10 +89,56 @@ function Company_profile() {
             const items = resp.data.map((key, index) => {
               const value = document.createElement("li");
               value.innerText =
-                data[index].position + " " + data[index].requirements + " " + data[index].salary;
+                data[index].position +
+                " " +
+                data[index].requirements +
+                " " +
+                data[index].salary;
               posts.appendChild(value);
             });
             document.getElementById("posts").appendChild(posts);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        axios
+          .post(
+            "http://localhost/fullstack/LinkedIn/backend/display_apps_company.php",
+            postfrom
+          )
+          .then((resp) => {
+            const data = resp.data;
+            const posts = document.createElement("ul");
+            const items = data.map((key, index) => {
+              const value = document.createElement("li");
+              const acc = document.createElement("input");
+              const rej = document.createElement("input");
+              acc.type = "button";
+              acc.value = "Accept"
+              acc.id = data[index].app_id;
+              acc.onclick = () => {
+                updateApp(acc.id, 1);
+              };
+              rej.type = "button";
+              rej.value ="Reject"
+              rej.id = data[index].app_id;
+              rej.onclick = () => {
+                updateApp(rej.id, 2);
+              };
+              if (data[index].status === 0) {
+                value.innerText =
+                  data[index].position +
+                  " " +
+                  data[index].requirements +
+                  " " +
+                  data[index].salary +
+                  " ";
+                  value.appendChild(acc)
+                  value.appendChild(rej)
+                posts.appendChild(value);
+              }
+            });
+            document.getElementById("apps").appendChild(posts);
           })
           .catch((err) => {
             console.log(err);
@@ -89,7 +149,7 @@ function Company_profile() {
       });
   };
   useEffect(() => {
-      displayinfo();
+    displayinfo();
   }, []);
   const edit = () => {
     const form = new FormData();
@@ -97,8 +157,7 @@ function Company_profile() {
     form.append("email", credentials.email);
     form.append("name", credentials.name);
     form.append("id", credentials.id);
-    localStorage.setItem("companyname",credentials.name);
-    console.log(credentials)
+    localStorage.setItem("companyname", credentials.name);
     axios
       .post(
         "http://localhost/fullstack/LinkedIn/backend/edit_company.php",
@@ -106,7 +165,7 @@ function Company_profile() {
       )
       .then((resp) => {
         console.log(resp.data);
-        window.location.href = ("/Profile/company:" + credentials.name);
+        window.location.href = "/Profile/company:" + credentials.name;
       })
       .catch((err) => {
         console.log(err);
@@ -124,7 +183,7 @@ function Company_profile() {
       )
       .then((resp) => {
         console.log(resp.data);
-        window.location.reload()
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -143,7 +202,7 @@ function Company_profile() {
       )
       .then((resp) => {
         console.log(resp.data);
-        window.location.reload()
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -185,7 +244,7 @@ function Company_profile() {
             });
           }}
         />
-        <input type="button"  onClick={edit} value="Edit info"/>
+        <input type="button" onClick={edit} value="Edit info" />
       </form>
       <div id="posts"></div>
       <form>
@@ -245,6 +304,7 @@ function Company_profile() {
         />
         <input type="button" onClick={createJob} value="Create Post" />
       </form>
+      <div id="apps"></div>
     </div>
   );
 }

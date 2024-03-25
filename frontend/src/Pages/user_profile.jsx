@@ -32,6 +32,7 @@ function User_profile() {
           value.innerText = item + ":" + resp.data[item];
           info.appendChild(value);
         });
+        localStorage.setItem("userid", resp.data.user_id);
         credentials.id = resp.data.user_id;
         credentials.name = resp.data.name;
         credentials.lastname = resp.data.lastname;
@@ -41,7 +42,8 @@ function User_profile() {
         post.id = resp.data.user_id;
         document.getElementById("container").appendChild(info);
         const postfrom = new FormData();
-        postfrom.append("user_id", post.id);
+        console.log(credentials.id)
+        postfrom.append("user_id", credentials.id);
         axios
           .post(
             "http://localhost/fullstack/LinkedIn/backend/display_user_posts.php",
@@ -61,6 +63,38 @@ function User_profile() {
           .catch((err) => {
             console.log(err);
           });
+          axios
+          .post(
+            "http://localhost/fullstack/LinkedIn/backend/display_apps.php",
+            postfrom
+          )
+          .then((resp) => {
+            console.log(resp.data)
+            const data = resp.data;
+            const posts = document.createElement("ul");
+            const items = data.map((key, index) => {
+              const value = document.createElement("li");
+              value.innerText =  data[index].position + " " + data[index].requirements + " " + data[index].salary + " ";
+              if( data[index].status === 0){
+                value.innerText += "Pending"
+                posts.appendChild(value);
+              }
+              else if( data[index].status === 1){
+                value.innerText += "Accepted"
+                posts.appendChild(value);
+              }
+              else{
+                value.innerText += "Rejected"
+                posts.appendChild(value);
+              }
+
+              
+            });
+            document.getElementById("apps").appendChild(posts);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +107,7 @@ function User_profile() {
     form.append("lastname", credentials.lastname);
     form.append("name", credentials.name);
     form.append("address", credentials.address);
-    form.append("id", credentials.id);
+    form.append("id", data);
     axios
       .post("http://localhost/fullstack/LinkedIn/backend/edit_user.php", form)
       .then((resp) => {
@@ -187,6 +221,7 @@ function User_profile() {
         />
         <input type="button" onClick={createPost} value="Create Post" />
       </form>
+      <div id="apps"></div>
     </div>
   );
 }

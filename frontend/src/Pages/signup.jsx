@@ -25,7 +25,7 @@ function Signup() {
       .post("http://localhost/fullstack/LinkedIn/backend/user_signup.php", form)
       .then((_) => {        
         localStorage.setItem("username",credentials.name)
-        localStorage.setItem("user_email",credentials.email)
+        localStorage.setItem("useremail",credentials.email)
         nav("/Profile/username:" + credentials.name, { state: { id: credentials } });
       })
       .catch((err) => {
@@ -45,6 +45,7 @@ function Signup() {
       .then((_) => {
         localStorage.setItem("companyname",credentials.name)
         localStorage.setItem("companyemail",credentials.email)
+        
         nav("/Profile/copmany:" + credentials.name, { state: { id: credentials } });
       })
       .catch((err) => {
