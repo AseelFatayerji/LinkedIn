@@ -8,7 +8,20 @@ function Company_view() {
     return url[url.length-1];
   }
   const data = getId();
-
+  const follow = () =>{
+    const user = localStorage.getItem("id")
+    const form = new FormData()
+    form.append("id",data)
+    form.append("user",user)
+    axios.post(
+      "http://localhost/fullstack/LinkedIn/backend/following.php",
+      form
+    ).then ((resp)=>{
+      console.log(resp)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
   const displayinfo = () => {
     const info = document.createElement("ul");
     const form = new FormData();
@@ -82,7 +95,9 @@ function Company_view() {
   return (
     <div className="Company_view">
       Company_view
-      <div id="container"></div>
+      <div id="container">
+      <input type="button" onClick={()=>{follow()}}>Follow</input>
+      </div>
 
       <div id="posts"></div>
 

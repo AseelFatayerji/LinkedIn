@@ -51,13 +51,29 @@ function User_view() {
         console.log(err);
       });
   };
+  const follow = () =>{
+    const user = localStorage.getItem("id")
+    const form = new FormData()
+    form.append("id",data)
+    form.append("user",user)
+    axios.post(
+      "http://localhost/fullstack/LinkedIn/backend/following.php",
+      form
+    ).then ((resp)=>{
+      console.log(resp)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
   useEffect(() => {
     displayinfo();
   }, []);
   return (
     <div className="User_view">
       User_view
-      <div id="container"></div>
+      <div id="container">
+        <input type="button" onClick={follow} value="Follow"/>
+      </div>
       Posts
       <div id="posts"></div>
       

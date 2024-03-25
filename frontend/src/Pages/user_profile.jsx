@@ -32,7 +32,7 @@ function User_profile() {
           value.innerText = item + ":" + resp.data[item];
           info.appendChild(value);
         });
-        localStorage.setItem("userid", resp.data.user_id);
+        localStorage.setItem("id", resp.data.user_id);
         credentials.id = resp.data.user_id;
         credentials.name = resp.data.name;
         credentials.lastname = resp.data.lastname;
@@ -222,6 +222,7 @@ function User_profile() {
         <input type="button" onClick={createPost} value="Create Post" />
       </form>
       <div id="apps"></div>
+      <div id="following"></div>
     </div>
   );
 }

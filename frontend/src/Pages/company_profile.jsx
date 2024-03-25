@@ -158,6 +158,7 @@ function Company_profile() {
     form.append("name", credentials.name);
     form.append("id", credentials.id);
     localStorage.setItem("companyname", credentials.name);
+    localStorage.setItem("id", credentials.id);
     axios
       .post(
         "http://localhost/fullstack/LinkedIn/backend/edit_company.php",

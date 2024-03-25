@@ -18,7 +18,7 @@ function Login() {
           const data = response.data;
           localStorage.setItem("username", data.name);
           localStorage.setItem("useremail", data.email);
-          localStorage.setItem("userid", data.user_id);
+          localStorage.setItem("id", data.user_id);
           nav("/Profile/username:" + data.name, { state: { id: data } });
         } else {
           axios
@@ -30,7 +30,7 @@ function Login() {
               if (response.data.status === "logged in") {
                 const data = response.data;
                 localStorage.setItem("companyname", data.company_name);
-                localStorage.setItem("companyid", data.company_id);
+                localStorage.setItem("id", data.company_id);
 
                 nav("/Profile/company:" + data.company_name, {
                   state: { id: data },
