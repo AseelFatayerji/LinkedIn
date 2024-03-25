@@ -15,6 +15,12 @@ function Company_profile() {
     info: "",
     img: "",
   });
+  const [job, setJob] = useState({
+    id:"",
+    desc: "",
+    pose: "",
+    salary: "",
+  });
   const displayinfo = () => {
     const info = document.createElement("ul");
     const form = new FormData();
@@ -35,6 +41,7 @@ function Company_profile() {
         credentials.password = resp.data.company_password;
         credentials.email = resp.data.company_email;
         post.id = resp.data.company_id;
+        job.id = resp.data.company_id;
         document.getElementById("container").appendChild(info);
         const postfrom = new FormData();
         postfrom.append("company_id", post.id);
@@ -50,6 +57,25 @@ function Company_profile() {
               const value = document.createElement("li");
               value.innerText =
                 data[index].post_info + ": " + data[index].post_img;
+              posts.appendChild(value);
+            });
+            document.getElementById("posts").appendChild(posts);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+          axios
+          .post(
+            "http://localhost/fullstack/LinkedIn/backend/display_job_posts.php",
+            postfrom
+          )
+          .then((resp) => {
+            const data = resp.data;
+            const posts = document.createElement("ul");
+            const items = resp.data.map((key, index) => {
+              const value = document.createElement("li");
+              value.innerText =
+                data[index].position + " " + data[index].requirements + " " + data[index].salary;
               posts.appendChild(value);
             });
             document.getElementById("posts").appendChild(posts);
@@ -91,10 +117,28 @@ function Company_profile() {
     form.append("info", post.info);
     form.append("img", post.img);
     form.append("id", post.id);
-    console.log(post)
     axios
       .post(
         "http://localhost/fullstack/LinkedIn/backend/create_company_post.php",
+        form
+      )
+      .then((resp) => {
+        console.log(resp.data);
+        window.location.reload()
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const createJob = () => {
+    const form = new FormData();
+    form.append("desc", job.desc);
+    form.append("pose", job.pose);
+    form.append("salary", job.salary);
+    form.append("id", job.id);
+    axios
+      .post(
+        "http://localhost/fullstack/LinkedIn/backend/create_job_post.php",
         form
       )
       .then((resp) => {
@@ -166,6 +210,40 @@ function Company_profile() {
           }}
         />
         <input type="button" onClick={createPost} value="Create Post" />
+      </form>
+      <div id="jobs"></div>
+      <form>
+        <input
+          type="text"
+          placeholder="requirements"
+          onChange={(e) => {
+            setJob({
+              ...post,
+              desc: e.target.value,
+            });
+          }}
+        />
+        <input
+          type="text"
+          placeholder="position"
+          onChange={(e) => {
+            setJob({
+              ...job,
+              pose: e.target.value,
+            });
+          }}
+        />
+        <input
+          type="number"
+          placeholder="salary"
+          onChange={(e) => {
+            setJob({
+              ...job,
+              salary: e.target.value,
+            });
+          }}
+        />
+        <input type="button" onClick={createJob} value="Create Post" />
       </form>
     </div>
   );

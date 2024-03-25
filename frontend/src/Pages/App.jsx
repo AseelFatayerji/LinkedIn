@@ -4,6 +4,7 @@ import Login from "./login";
 import Profile from "./profile";
 import Signup from "./signup";
 import Home from "./home";
+import Job from "./jobs";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
             <Route path="/Profile/:user" element={<Profile />} />
             <Route path="/Profile/:company" element={<Profile />} />
             <Route path="/Signup" element={<Signup />} />
+            <Route path="/Jobs" element={<Job />} />
+            <Route path="/Jobs/:user" element={<Job />} />
+            <Route path="/Jobs/:company" element={<Job />} />
           </Routes>
     </div>
   );

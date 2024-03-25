@@ -8,9 +8,12 @@ function Navbar() {
         <div className="home">
           <Link to="/">Home</Link>
         </div>
+        <div className="Jobs">
+          <Link to="/Jobs">Jobs</Link>
+        </div>
         <div className="login">
           <Link to="/Login">Login</Link>
-        </div>
+        </div>        
       </div>
     </div>
   );

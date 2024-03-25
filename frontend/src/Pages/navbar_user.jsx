@@ -31,9 +31,13 @@ function Navbar() {
               Profile
             </Link>
           </div>
+          <div className="Jobs">
+          <Link to={"/Jobs/"+checkUser}>Jobs</Link>
+        </div>
           <div className="login">
           <Link to="/" onClick={clearStorage}>Logout</Link>
         </div>
+        
     </div>
   );
 }
