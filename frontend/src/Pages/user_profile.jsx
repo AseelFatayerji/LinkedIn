@@ -42,7 +42,6 @@ function User_profile() {
         post.id = resp.data.user_id;
         document.getElementById("container").appendChild(info);
         const postfrom = new FormData();
-        console.log(credentials.id)
         postfrom.append("user_id", credentials.id);
         axios
           .post(
@@ -69,7 +68,6 @@ function User_profile() {
             postfrom
           )
           .then((resp) => {
-            console.log(resp.data)
             const data = resp.data;
             const posts = document.createElement("ul");
             const items = data.map((key, index) => {
@@ -111,7 +109,6 @@ function User_profile() {
     axios
       .post("http://localhost/fullstack/LinkedIn/backend/edit_user.php", form)
       .then((resp) => {
-        console.log(resp.data);
         localStorage.setItem("useremail", credentials.email);
         window.location.href = "/Profile/username:" + credentials.name;
       })
@@ -129,8 +126,7 @@ function User_profile() {
         "http://localhost/fullstack/LinkedIn/backend/create_user_post.php",
         form
       )
-      .then((resp) => {
-        console.log(resp.data);
+      .then((_) => {
         window.location.reload();
       })
       .catch((err) => {

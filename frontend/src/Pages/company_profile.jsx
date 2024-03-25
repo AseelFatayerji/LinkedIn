@@ -27,8 +27,7 @@ function Company_profile() {
     form.append("id", id);
     axios
       .post("http://localhost/fullstack/LinkedIn/backend/edit_app.php", form)
-      .then((resp) => {
-        console.log(resp.data);
+      .then((_) => {
         window.location.href = "/Profile/company:" + credentials.name;
       })
       .catch((err) => {
@@ -165,7 +164,6 @@ function Company_profile() {
         form
       )
       .then((resp) => {
-        console.log(resp.data);
         window.location.href = "/Profile/company:" + credentials.name;
       })
       .catch((err) => {
@@ -182,8 +180,7 @@ function Company_profile() {
         "http://localhost/fullstack/LinkedIn/backend/create_company_post.php",
         form
       )
-      .then((resp) => {
-        console.log(resp.data);
+      .then((_) => {
         window.location.reload();
       })
       .catch((err) => {
@@ -201,8 +198,7 @@ function Company_profile() {
         "http://localhost/fullstack/LinkedIn/backend/create_job_post.php",
         form
       )
-      .then((resp) => {
-        console.log(resp.data);
+      .then((_) => {
         window.location.reload();
       })
       .catch((err) => {

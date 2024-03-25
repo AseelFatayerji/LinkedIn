@@ -59,8 +59,7 @@ function User_view() {
     axios.post(
       "http://localhost/fullstack/LinkedIn/backend/following.php",
       form
-    ).then ((resp)=>{
-      console.log(resp)
+    ).then ((_)=>{
     }).catch((err)=>{
       console.log(err)
     })

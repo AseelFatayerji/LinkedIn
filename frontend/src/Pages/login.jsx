@@ -35,9 +35,7 @@ function Login() {
                 nav("/Profile/company:" + data.company_name, {
                   state: { id: data },
                 });
-              } else {
-                console.log(response);
-              }
+              } 
             })
             .catch((err) => {
               console.log(err);

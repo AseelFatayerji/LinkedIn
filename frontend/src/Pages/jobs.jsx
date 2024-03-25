@@ -26,8 +26,7 @@ function Job() {
     .post(
       "http://localhost/fullstack/LinkedIn/backend/apply_to_job.php",form
     )
-    .then((resp) => {
-      console.log(resp)
+    .then((_) => {
      
     })
     .catch((err) => {
@@ -40,7 +39,6 @@ function Job() {
             "http://localhost/fullstack/LinkedIn/backend/display_all_jobs.php",
           )
           .then((resp) => {
-            console.log(resp.data)
             const data = resp.data
             const jobs = document.createElement("ul");
             const items = resp.data.map((key,index) => {
